@@ -1,0 +1,38 @@
+
+05.03.2017
+	* Added other fonts than Arimo: DejaVu and Droid
+	* Added \UWdate and \UWaddressee macros
+
+06.03.2017
+	* Changed the default margins of the document body
+
+07.03.2017
+	* Added documentation for \UWoverlap macro
+
+25.04.2017
+	* Added \usepackage{polski} for Polish documents
+	* Added reset of address etc in units_list.tex
+
+23.01.2020
+	* Added the logo of the Faculty (MIMlogo.pdf) to the header, next to
+	  the logo of the University, with a vertical bar between them
+	* Moved the lines with the unit names 3 mm down (the first baseline
+	  is 53 mm from the top edge instead of 50 mm)
+	* Printed the function and the person in gray instead of black
+	* Added the templates of January 2020 (MIM_logo.pdf,
+	  Wydzial_PL_2.pdf, Wydzial_EN_2.pdf)
+
+24.04.2026
+	* Corrected the option of xcolor (dvipsnames instead of the
+	  misspelled dvinames)
+
+27.11.2026
+	* Moved to GitHub (https://github.com/mskrzypczak/UWletterhead),
+	  built and published by GitHub Actions at
+	  https://mskrzypczak.github.io/UWletterhead/
+	* Added a new manual (manual.tex); the former manual.tex is now
+	  examples/example3.tex
+	* Added tests (tests/run.sh)
+	* Corrected eight glyph names in T1-WGL4.enc, so that the option
+	  arimo prints Z and z with dot above (\.Z, \.z), \H{O}, \H{o},
+	  \H{U}, \H{u}, \c{T} and \c{t}

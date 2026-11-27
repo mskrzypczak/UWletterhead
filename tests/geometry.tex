@@ -1,0 +1,58 @@
+% Other margins, the option 10pt and another \UWheadsep do not move what
+% the class puts at fixed places; the same holds for a header repeated on
+% the next page and for \UWoverlap. Checks also the options nopagenr and
+% grayscale.
+\documentclass[polski,10pt,nopagenr,grayscale]{UWletterhead}
+\input{tests/checks}
+
+\geometry{top=20mm, left=50mm, right=25mm, bottom=40mm}
+\renewcommand{\UWheadsep}{0mm}
+\renewcommand{\UWoverlap}{templates/I-Informatyki_PL.pdf}
+
+\CheckColour{UWdBlue}{58,58,58}
+\CheckColour{UWlBlue}{120,120,120}
+\CheckColour{UWsBlue}{21,21,21}
+\CheckColour{UWblack}{0,0,0}
+\CheckColour{UWwhite}{255,255,255}
+\CheckColour{UWlGray}{177,179,182}
+\CheckColour{UWdGray}{128,130,133}
+
+\renewcommand{\UWfaculty}{\PageMark{faculty}Faculty}
+\renewcommand{\UWinstitute}{\PageMark{institute}Institute}
+\renewcommand{\UWfootText}{\PageMark{footer}X}
+\renewcommand{\thepage}{\arabic{page}\PageMark{number}}
+\newlength{\Depth}
+
+\begin{document}
+\UWheader
+
+\PageMark{body}Text.
+
+\UWdate{Warszawa, 1 stycznia 2026\Mark{date}}
+
+\newpage
+\UWheader
+
+\PageMark{body}Text.
+
+\CheckEqual{the font family}{\FontFamily}{droidsans}
+\CheckEqual{the font size}{\FontSize}{10}
+
+\CheckPos{faculty1}{56mm}{53mm}
+\CheckPos{institute1}{56mm}{53mm+15.6pt}
+\CheckPos{faculty2}{56mm}{53mm}
+\CheckPos{institute2}{56mm}{53mm+15.6pt}
+\CheckPos{footer1}{56mm}{\paperheight-10mm}
+\CheckPos{footer2}{56mm}{\paperheight-10mm}
+
+% The body text follows the margins and \UWheadsep (see defaults.tex).
+\settodepth{\Depth}{\fontsize{12pt}{1em}\selectfont Institute}
+\CheckPos{body1}{50mm}
+	{53mm+15.6pt+\Depth-6.5mm+0mm+\parskip+\baselineskip}
+\CheckPos{body2}{50mm}{\PosY{body1}}
+\CheckPos[2mm]{date}{\paperwidth-25mm}{\PosY{date}}
+
+% Two pages, but the option nopagenr.
+\CheckAbsent{number1}
+\CheckAbsent{number2}
+\end{document}

@@ -1,0 +1,100 @@
+name: "LaTeX: build & publish"
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Prepare dist folder
+        run: |
+          sudo rm -rf dist || true
+          mkdir -p dist
+          sudo chown -R "$USER":"$USER" dist
+
+          cp -r site/* dist/ || true
+
+          DATE_PL=$(LC_ALL=pl_PL.UTF-8 date -u '+%Y-%m-%d %H:%M')
+          sed -i "s|PLACEHOLDER_DATETIME|${DATE_PL}|" dist/index.html
+
+          # The page shows these files: each one (HTML-escaped) replaces its PLACEHOLDER_<file> line
+          for f in examples/test.tex examples/example3.tex UWletterhead.cls CHANGELOG.txt; do
+            sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g' "$f" |
+              sed -i -e "/PLACEHOLDER_${f##*/}/r /dev/stdin" -e "/PLACEHOLDER_${f##*/}/d" dist/index.html
+          done
+
+      - name: Run the tests, compile examples and manual with latex-action
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: |
+            examples/test.tex
+            examples/example1.tex
+            examples/example2.tex
+            examples/example3.tex
+            manual.tex
+          latexmk_use_lualatex: false
+          latexmk_use_xelatex: false
+          pre_compile: bash tests/run.sh
+
+      # Class with the files it needs, examples and manual in one folder: published as files and as archives
+      - name: Bundle the class with the examples and the manual
+        run: |
+          mkdir dist/UWletterhead
+          cp LICENSE CHANGELOG.txt UWletterhead.cls UWlogo*.pdf MIMlogo.pdf Arimo-* T1Arimo.fd T1-WGL4.enc examples/*.tex dist/manual.pdf dist/UWletterhead/
+          cp -r templates dist/
+          cd dist
+          zip -r UWletterhead.zip UWletterhead
+          tar czf UWletterhead.tar.gz UWletterhead
+          zip -r templates.zip templates
+          tar czf templates.tar.gz templates
+
+      # Picture of the example shown on the page
+      - name: Convert the example to SVG
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pdf2svg
+          pdf2svg dist/test.pdf dist/test.svg
+
+      # Make PDFs downloadable from the run page
+      - name: Upload artifact (PDFs)
+        uses: actions/upload-artifact@v7
+        with:
+          name: pdfs
+          path: dist/*.pdf
+
+      # Prepare GitHub Pages artifact
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v6
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

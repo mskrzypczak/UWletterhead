@@ -1,0 +1,12 @@
+\ProvidesFile{T1Arimo.fd}
+
+\DeclareFontFamily{T1}{Arimo}{}
+
+\DeclareFontShape{T1}{Arimo}{m}{n}{ <-> Arimo-Regular}{}
+
+\DeclareFontShape{T1}{Arimo}{b}{n}{ <-> Arimo-Bold}{}
+
+\DeclareFontShape{T1}{Arimo}{bx}{n}{ <-> ssub * Arimo/b/n}{}
+
+\pdfmapline{+Arimo-Regular\space <Arimo-Regular.ttf\space <T1-WGL4.enc}
+\pdfmapline{+Arimo-Bold\space <Arimo-Bold.ttf\space <T1-WGL4.enc}

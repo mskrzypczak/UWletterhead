@@ -1,0 +1,33 @@
+% The option arimo: the font and all the accented letters of the encoding
+% T1, regular and bold (tests/run.sh fails when a glyph is not found in the
+% font files). Checks also the option pagenr in a document of one page.
+\documentclass[english,arimo,pagenr]{UWletterhead}
+\input{tests/checks}
+
+\renewcommand{\UWfaculty}{\Mark{faculty}Faculty}
+\renewcommand{\thepage}{\arabic{page}\Mark{number}}
+\newcount\Slot
+
+\begin{document}
+\UWheader
+
+Za\.z\'o{\l}\'c g\k{e}\'sl\k{a} ja\'z\'n.
+ZA\.Z\'O{\L}\'C G\k{E}\'SL\k{A} JA\'Z\'N.
+\textbf{Za\.z\'o{\l}\'c g\k{e}\'sl\k{a} ja\'z\'n.
+ZA\.Z\'O{\L}\'C G\k{E}\'SL\k{A} JA\'Z\'N.}
+
+% The slots 128-255 of T1 are the accented letters. The slot 223 is \SS,
+% the only one that the font does not have.
+\Slot=128
+\loop\ifnum\Slot<256
+	\ifnum\Slot=223 \else \char\Slot\ \textbf{\char\Slot}\ \fi
+	\advance\Slot 1
+\repeat
+
+\CheckEqual{the font family}{\FontFamily}{Arimo}
+\CheckPos{faculty}{56mm}{53mm}
+
+% One page, but the option pagenr: the number is 10 mm from the right and
+% from the bottom edge.
+\CheckPos[0.1mm]{number}{\paperwidth-10mm}{\paperheight-10mm}
+\end{document}

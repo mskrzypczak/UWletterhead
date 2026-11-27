@@ -1,0 +1,153 @@
+% The options english, dejavu and 11pt in a document of several pages.
+% Checks the lines of the header and of the footer (an empty value removes
+% its line), the page numbers, the space below the header, and the commands
+% \UWdate, \UWaddressee and \UWsignature.
+\documentclass[english,dejavu,11pt]{UWletterhead}
+\input{tests/checks}
+
+\CheckEqual{the logo of the University}{\UWlogo}{UWlogoEN.pdf}
+\CheckEqual{the faculty}{\UWfaculty}
+	{Faculty of Mathematics, Informatics and Mechanics}
+\CheckEqual{the address}{\UWaddress}{Banacha~2, 02-097 Warsaw, Poland}
+\CheckEqual{the package polski}
+	{\ifcsname ver@polski.sty\endcsname loaded\else missing\fi}{missing}
+
+% Every line of the header checks the colour and the weight of its text:
+% blue for the units, gray for the person, bold for the first of each. The
+% size is 12pt in the header and 8pt in the footer, whatever the option.
+\renewcommand{\UWfaculty}{\PageMark{faculty}\CheckColour{.}{0,146,206}%
+	\CheckEqual{the weight of the faculty}{\FontSeries}{b}%
+	\CheckEqual{the size of the header}{\FontSize}{12}Faculty}
+\renewcommand{\UWinstitute}{\PageMark{institute}\CheckColour{.}{0,146,206}%
+	\CheckEqual{the weight of the institute}{\FontSeries}{m}Institute}
+\renewcommand{\UWfunction}{\PageMark{function}\CheckColour{.}{128,130,133}%
+	\CheckEqual{the weight of the function}{\FontSeries}{b}Function}
+\renewcommand{\UWperson}{\PageMark{person}\CheckColour{.}{128,130,133}%
+	\CheckEqual{the weight of the person}{\FontSeries}{m}Person}
+\renewcommand{\UWprefAddress}{\PageMark{address}%
+	\CheckEqual{the size of the footer}{\FontSize}{8}}
+\renewcommand{\UWprefPhone}{\PageMark{phone}}
+\renewcommand{\UWprefEMail}{\PageMark{email}}
+\renewcommand{\UWphone}{+48 22 55 44 460}
+\renewcommand{\UWemail}{iinf@mimuw.edu.pl}
+\renewcommand{\thepage}{\arabic{page}\PageMark{number}}
+
+\begin{document}
+% Page 1: four lines in the header, three lines in the footer.
+\UWheader
+
+\PageMark{body}Za\.z\'o{\l}\'c g\k{e}\'sl\k{a} ja\'z\'n.
+ZA\.Z\'O{\L}\'C G\k{E}\'SL\k{A} JA\'Z\'N.
+\textbf{Za\.z\'o{\l}\'c g\k{e}\'sl\k{a} ja\'z\'n.
+ZA\.Z\'O{\L}\'C G\k{E}\'SL\k{A} JA\'Z\'N.}
+
+\UWdate{Warsaw, 1 January 2026\Mark{date}}
+
+\Mark{afterdate}Text.
+
+\UWaddressee{\Mark{addressee}Addressee}
+
+\UWaddressee[30mm]{\Mark{addressee30}Addressee}
+
+\UWsignature{\Mark{signature}Signature}
+
+\UWsignature[6cm]{\Mark{signature60}Signature}
+
+\newpage
+% Page 2: no function and no person in the header, no e-mail in the footer.
+\renewcommand{\UWfunction}{}
+\renewcommand{\UWperson}{}
+\renewcommand{\UWemail}{}
+\UWheader
+
+\PageMark{body}Text.
+
+\newpage
+% Page 3: as page 2 with more space below the header; no phone.
+\renewcommand{\UWheadsep}{25mm}
+\renewcommand{\UWphone}{}
+\UWheader
+
+\PageMark{body}Text.
+
+\newpage
+% Page 4: the institute alone; no address, hence an empty footer.
+\renewcommand{\UWheadsep}{10mm}
+\renewcommand{\UWfaculty}{}
+\renewcommand{\UWaddress}{}
+\UWheader
+
+\PageMark{body}Text.
+
+\newpage
+% Page 5: an empty header; the text of the footer replaced.
+\renewcommand{\UWinstitute}{}
+\renewcommand{\UWfootText}{\PageMark{footer}X}
+\UWheader
+
+\PageMark{body}Text.
+
+\newpage
+% Page 6: no header; the text fills the page from margin to margin.
+\PageMark{top}X
+
+\vfill
+\PageMark{bottom}X
+
+\CheckEqual{the font family}{\FontFamily}{DejaVuSansCondensed-TLF}
+\CheckEqual{the font size}{\FontSize}{10.95}
+
+% The lines of the header: 56 mm from the left edge, the first baseline
+% 53 mm from the top edge, the next ones every 1.3*12pt = 15.6pt.
+\CheckPos{faculty1}{56mm}{53mm}
+\CheckPos{institute1}{56mm}{53mm+15.6pt}
+\CheckPos{function1}{56mm}{53mm+31.2pt}
+\CheckPos{person1}{56mm}{53mm+46.8pt}
+\CheckPos{faculty2}{56mm}{53mm}
+\CheckPos{institute2}{56mm}{53mm+15.6pt}
+\CheckAbsent{function2}
+\CheckAbsent{person2}
+\CheckAbsent{faculty4}
+\CheckPos{institute4}{56mm}{53mm}
+\CheckAbsent{institute5}
+
+% The body text starts at the left margin. \UWheadsep moves it by its
+% change, a line of the header by 15.6pt; below an empty header it starts
+% as if the header ended 50 mm from the top edge.
+\CheckPos{body2}{35mm}{\PosY{body2}}
+\CheckPos{body3}{35mm}{\PosY{body2}+15mm}
+\CheckPos{body4}{35mm}{\PosY{body2}-15.6pt}
+\CheckPos{body5}{35mm}{50mm-6.5mm+10mm+\parskip+\baselineskip}
+
+% A page without the header uses the margins: 30 mm at the top and at the
+% bottom.
+\CheckPos{top6}{35mm}{30mm+\topskip}
+\CheckPos{bottom6}{35mm}{\paperheight-30mm}
+
+% The lines of the footer start 56 mm from the left edge; the footer ends
+% 10 mm above the bottom edge.
+\CheckPos{address1}{56mm}{\PosY{address1}}
+\CheckPos{phone1}{56mm}{\PosY{phone1}}
+\CheckPos{email1}{56mm}{\PosY{email1}}
+\CheckPos{phone2}{56mm}{\PosY{phone2}}
+\CheckAbsent{email2}
+\CheckPos{address3}{56mm}{\PosY{address3}}
+\CheckAbsent{phone3}
+\CheckAbsent{address4}
+\CheckPos{footer5}{56mm}{\paperheight-10mm}
+
+% More than one page, hence page numbers: 10 mm from the right and from
+% the bottom edge (up to the part of a round digit below its baseline).
+\CheckPos[0.1mm]{number1}{\paperwidth-10mm}{\paperheight-10mm}
+\CheckPos[0.1mm]{number6}{\paperwidth-10mm}{\paperheight-10mm}
+
+% The date ends at the right margin (up to the space that follows it) and
+% is followed by 1.5cm; the addressee and the signature are indented by
+% half of the width of the text, or by the optional argument.
+\CheckPos[2mm]{date}{\paperwidth-35mm}{\PosY{date}}
+\CheckPos{afterdate}{35mm}{\PosY{date}+1.5cm+\parskip+\baselineskip}
+\CheckPos{addressee}{35mm+0.5\textwidth}{\PosY{addressee}}
+\CheckPos{addressee30}{35mm+30mm}{\PosY{addressee30}}
+\CheckPos{signature}{35mm+0.5\textwidth}{\PosY{signature}}
+\CheckPos{signature60}{35mm+6cm}{\PosY{signature60}}
+\end{document}

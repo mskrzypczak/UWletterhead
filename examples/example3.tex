@@ -1,0 +1,212 @@
+\documentclass[nopagenr]{UWletterhead}
+
+% Available class options (put in the square brackets above):
+% * `polski` - set the language to Polish, influences the logo and prefixes
+% * `english` - set the language to English, influences the logo and prefixes
+
+% * `arimo` - set the default font to Arimo
+% * `droid` - set the default font to Droid
+% * `dejavu` - set the default font to DejaVu
+
+% * `grayscale` - transform colours to grayscale, for printing
+
+% * `autopagenr` - automatically decide whether to put numbers of pages
+% * `pagenr` - always put numbers of pages
+% * `nopagenr` - never put numbers of pages
+
+% * `10pt` use 10pt font for the main body
+% * `11pt` use 11pt font for the main body
+% * `12pt` use 12pt font for the main body
+
+% The defaults are: polski, droid, autopagenr, 12pt.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% If you use non-standard symbols (i.e. Polish diacretic letters), you should
+% define input encoding using an option like the following ones.
+
+% Use for utf8 encoded files
+%\usepackage[utf8]{inputenc}
+
+% Use for Windows cp1250 encoded files
+%\usepackage[cp1250]{inputenc}
+
+% Use for Latin 2 encoded files
+%\usepackage[latin2]{inputenc}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Control the space between the header and the body text. Identification
+% Codebook does not specify that. The command is optional.
+
+\renewcommand{\UWheadsep}{10mm} % - 10mm by default
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Control the margins of the body text. Identification
+% Codebook does not specify that. Top margin influences the pages that do
+% not start with the UW header. The command is optional. See
+% UWletterhead.cls for a discussion on reasonable margin sizes. The values
+% below are the default ones.
+
+% Modifying these values (within reasonable ranges, as defined in
+% UWletterhead.cls) does not move the elements of the layout that are
+% positioned accordingly to Identification Codebook.
+
+% The current default sets the left margin in the vertical line passing
+% through the middle of the logo (eagle). Another reasonable possibility
+% is to set the left margin to 56mm, in that case the left margin of the
+% body text is aligned to the faculty, institute, etc names.
+
+\geometry{
+	top=30mm,
+	left=35mm,
+	right=30mm,
+	bottom=30mm
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Control the standard parts of the text (all of these commands are optional).
+
+% There is an automatic system that shows only lines for non-empty values.
+% To make it work correctly, if we want the given field to be empty, we should
+% define it as an empty string, i.e. \renewcommand{\UWfaculty}{}
+% A convoluted definition like:
+% \newcommand{\myEmptyString}{}
+% \renewcommand{\UWfaculty}{\myEmptyString}
+% will not work.
+% The same applies to the values \UWaddress, \UWphone, and \UWemail.
+
+%\renewcommand{\UWfaculty}{} % - filled to MIM automatically
+\renewcommand{\UWinstitute}{Instytut Informatyki} % - empty by default
+%\renewcommand{\UWfunction}{} % - empty by default
+%\renewcommand{\UWperson}{} % - empty by default
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Control the address line prefixes (all of these commands are optional):
+
+%\renewcommand{\UWprefAddress}{} % - empty by default
+\renewcommand{\UWprefPhone}{telefon: } % - empty by default
+%\renewcommand{\UWprefEMail}{e-mail: } % - filled by default
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Control the address line values (all of these commands are optional):
+
+%\renewcommand{\UWaddress}{ul. Banacha~2, 02-097 Warszawa, Polska}
+	% - filled by default
+\renewcommand{\UWphone}{+48 22 55 44 460} % - empty by default
+\renewcommand{\UWemail}{iinf@mimuw.edu.pl} % - empty by default
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% If you really need, you can overwrite the whole footer address text.
+% In that case all the above values \UWaddress, \UWprefAddress, etc
+% have no effect. The default \UWfootText takes care of empty values
+% and lets the phone and the email be hyperlinks. Thus, in most cases
+% do not use this command.
+
+\renewcommand{\UWfootText}{
+\UWprefAddress\UWaddress\\
+\UWprefPhone\UWphone\\
+\UWprefEMail\UWemail
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Begin the body of the document.
+\begin{document}
+
+% Start with \UWheader to put the header at the beginning of the first page.
+
+\UWheader
+
+% Use \UWdate to put the date line.
+
+\UWdate{Warszawa, 15 kwietnia 2017}
+
+% Use \UWaddressee to put the addressee part of the text. The first
+% optional argument controls the horizontal space to the left of the
+% addressee paragraph.
+\UWaddressee[7.5cm]{Sz. P. Anna Kowalska\\
+Kierownik Katedry\\
+Znaczna Persona}
+
+% Put your body text here.
+Szanowna Pani Profesor,
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Identification Codebook defines that we can use the specific font (Arimo)
+% in the regular or bold variant.
+
+Nie jest dla mnie jasne co oznacza \textbf{Definicja 27} z pracy domowej.
+
+% On the other hand, Identification Codebook does not define italic variant
+% of the font. Thus, the following command, if used with arimo package option,
+% leads to a warning:
+
+%\textit{Zadanie 24} jest raczej czytelne.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% It is allowed to use math mode in the documents, however the fonts used for
+% math are the standard LaTeX ones (do not comply with the choice done
+% in the package).
+
+Interesuje mnie wynik obliczenia $\sin\big(\frac{\pi}{7}\big)$?
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% You can use the macro \UWsignature to put a standarised signature.
+% The first (optional) argument of the macro controls the horizontal
+% space to the left of the signature.
+% The command (standard for Latex) \\[10mm] puts a vertical space
+% of a given height.
+
+\UWsignature[7.5cm]{Z wyrazami szacunku,\\[10mm]Micha{\l} Skrzypczak}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Usually, the header is only on the first page. If you want to put the header
+% more times in your file, you can force a new page by \newpage
+% and put there \UWheader as well.
+% If you want to create multiple separate documents by one file, the class
+% option `nopagenr` (used in line 1 of this file) may be helpful. It removes
+% page numbers from all the pages.
+
+\newpage
+\UWheader
+
+Szanowna Pani Magister,
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% If you need to use the standarised colours, you can do it. The list of
+% available colours is the following (with their RGB values):
+% * UWdBlue : {  0,  68, 124}
+% * UWlBlue : {  0, 146, 206}
+% * UWsBlue : {  0,  23,  69}
+% * UWblack : {  0,    0,  0}
+% * UWwhite : {255, 255, 255}
+% * UWlGray : {177, 179, 182}
+% * UWdGray : {128, 130, 133}
+
+% If the option grayscale is used then the colours \UWdBlue, \UWlBlue,
+% and \UWsBlue are turned manually into grayscale, as follows:
+% * UWdBlue : { 58,  58,  58}
+% * UWlBlue : {120, 120, 120}
+% * UWsBlue : { 21,  21,  21}
+
+% You can colour your text using \textcolor macro.
+
+\textcolor{UWdBlue}{Nalegam na dotrzymanie terminu!}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\UWsignature{Uszanowania,\\[5mm]Micha{\l} Skrzypczak}
+
+\end{document}
+

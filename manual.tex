@@ -1,0 +1,360 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{newtxtext}
+\usepackage[margin=3cm]{geometry}
+\usepackage[hidelinks]{hyperref}
+
+\title{The \texttt{UWletterhead} class}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Usage}
+
+The class \texttt{UWletterhead} typesets official letters of the \href{https://www.mimuw.edu.pl/}{Faculty of Mathematics, Informatics and Mechanics} of the \href{https://en.uw.edu.pl/}{University of Warsaw}, with the layout of the \href{https://promocja.uw.edu.pl/identyfikacja-wizualna/ksiega-identyfikacji-wizualnej/}{Identification Codebook}, which is a part of the \href{https://promocja.uw.edu.pl/identyfikacja-wizualna/}{visual identification system} of the University.
+It is based on the standard class \texttt{letter}.
+The command \verb|\UWheader| prints the header of a letter: the logos of the University and of the Faculty and up to four lines with the faculty, the institute, the function and the person.
+Every page gets a footer with the address, the phone number and the e-mail address, and the commands \verb|\UWdate|, \verb|\UWaddressee| and \verb|\UWsignature| place the date, the addressee and the signature.
+This manual describes all the options and commands of the class.
+The class is published at \url{https://mskrzypczak.github.io/UWletterhead/}, and its sources are at \url{https://github.com/mskrzypczak/UWletterhead}.
+
+The class needs no installation: it is enough to put the following files next to the main file of the letter.
+\begin{itemize}
+\item \texttt{UWletterhead.cls}, the class.
+\item \texttt{UWlogoPL.pdf} for a letter in Polish or \texttt{UWlogoEN.pdf} for a letter in English, the logo of the University.
+\item \texttt{MIMlogo.pdf}, the logo of the Faculty.
+\item Only for the option \texttt{arimo}: the font files \texttt{Arimo-Regular.ttf} and \texttt{Arimo-Bold.ttf}, their metrics \texttt{Arimo-Regular.tfm} and \texttt{Arimo-Bold.tfm}, the font definition \texttt{T1Arimo.fd} and the encoding \texttt{T1-WGL4.enc}.
+\end{itemize}
+TeX Live has its own files named \texttt{Arimo-Regular.ttf}, \texttt{Arimo-Bold.ttf} and \texttt{T1-WGL4.enc}, which differ from the copies distributed with the class and are used when these are missing; with that \texttt{T1-WGL4.enc} the letters Ż and ż are not printed.
+The folder \texttt{UWletterhead} of the archives \texttt{UWletterhead.zip} and \texttt{UWletterhead.tar.gz}, published on the website of the class, contains all these files together with the examples and this manual.
+
+The letter is compiled with pdf\LaTeX{}, twice.
+The logos, the footer and the page numbers are placed relatively to the page, at positions that pdf\LaTeX{} reads from the \texttt{.aux} file written by the previous run, which also gives the number of pages on which the page numbers depend (Section~\ref{sec:options}).
+After a single run the logos and the footer are missing, and \LaTeX{} warns that the labels may have changed.
+The command \texttt{latexmk -pdf} runs pdf\LaTeX{} as many times as needed.
+
+A typical main file looks as follows; it is the example \verb|example1.tex|.
+
+\begin{verbatim}
+\documentclass[11pt, english]{UWletterhead}
+
+\renewcommand{\UWinstitute}{Institute of Informatics}
+
+\renewcommand{\UWphone}{+48 22 55 44 460}
+\renewcommand{\UWemail}{iinf@mimuw.edu.pl}
+
+\begin{document}
+\UWheader
+
+\UWdate{Warsaw, \today}
+
+\UWaddressee[0.6\textwidth]{Prof. Donald Knuth}
+
+Dear Professor Knuth,
+
+I write to you according to the conversation\ldots
+
+\UWsignature[0.6\textwidth]{Yours Sincerely,\\[5mm]Micha{\l} Skrzypczak}
+
+\end{document}
+\end{verbatim}
+
+The following examples are distributed together with the class (in the repository they are in the folder \texttt{examples}):
+\begin{itemize}
+\item \verb|test.tex|: a one-page letter in Polish, with the institute, the phone number and the e-mail address; it is the example shown on the website.
+\item \verb|example1.tex|: the letter in English shown above.
+\item \verb|example2.tex|: a two-page letter of the Dean in Polish, with the function and the person in the header and with page numbers.
+\item \verb|example3.tex|: an annotated example, whose comments describe the options and the commands; it holds two letters in one file, each starting with \verb|\UWheader|, uses the option \texttt{nopagenr} and redefines the footer.
+\item \verb|units_list.tex|: the values of \verb|\UWinstitute|, \verb|\UWfunction| and \verb|\UWperson| for the units of the Faculty, in Polish and in English, to be copied into a letter; the names are those of the years 2017--2020.
+  At its end all the values are cleared, so the file compiled as it is prints only the logos.
+\end{itemize}
+
+\section{Class options}\label{sec:options}
+
+The options are given in \verb|\documentclass[...]{UWletterhead}|.
+They form five groups, and of each group at most one option should be given.
+
+The language:
+\begin{itemize}
+\item \texttt{polski} (the default): the logo \texttt{UWlogoPL.pdf} and the Polish default texts of the header and of the footer (Section~\ref{sec:contents}).
+  The package \texttt{polski} is loaded, so the text is hyphenated with the Polish patterns, \verb|\today| gives the date in Polish (e.g.\ ``6 marca 2017'') and \verb|\frenchspacing| is in force.
+\item \texttt{english}: the logo \texttt{UWlogoEN.pdf} and the English default texts.
+  The package \texttt{polski} is not loaded, so the text is hyphenated as American English and \verb|\today| gives e.g.\ ``March 6, 2017''.
+\end{itemize}
+
+The font:
+\begin{itemize}
+\item \texttt{droid} (the default): Droid Sans (the package \texttt{droidsans} with the option \texttt{defaultsans}), in the regular and the bold weight, with a slanted shape for \verb|\textit| and \verb|\textsl|.
+\item \texttt{arimo}: Arimo, the font required by the Identification Codebook, from the files distributed with the class, only in the regular and the bold weight (its limitations are listed in Section~\ref{sec:fixed}).
+\item \texttt{dejavu}: DejaVu Sans Condensed (the package \texttt{DejaVuSansCondensed}), in the regular and the bold weight, with an oblique shape for \verb|\textit| and \verb|\textsl|.
+\end{itemize}
+The selected font is used in the whole letter, including the header and the footer.
+
+The colours:
+\begin{itemize}
+\item \texttt{grayscale}: for printing on monochrome printers, the three blue colours of the class, \texttt{UWdBlue}, \texttt{UWlBlue} and \texttt{UWsBlue}, are replaced by the grays with the RGB values (58,58,58), (120,120,120) and (21,21,21), respectively.
+  Of the output of the class this changes only the lines with the faculty and the institute, which are printed in \texttt{UWlBlue}, as the logos are black and gray anyway.
+  The other colours stay as they are, also those used in the text of the letter (e.g.\ \texttt{NavyBlue}).
+  Without this option the colours are those listed in Section~\ref{sec:layout}.
+\end{itemize}
+
+The page numbers:
+\begin{itemize}
+\item \texttt{autopagenr} (the default): the pages are numbered if and only if the letter has more than one page.
+  The number of pages is taken from the previous run of pdf\LaTeX{} (the package \texttt{zref-totpages}).
+\item \texttt{pagenr}: the pages are always numbered.
+\item \texttt{nopagenr}: the pages are never numbered, which is useful when one file holds several letters (as \verb|example3.tex|).
+\end{itemize}
+The number is printed in 8\,pt, with its lower right corner 10\,mm from the right and from the bottom edge of the page.
+
+The font size:
+\begin{itemize}
+\item \texttt{10pt}, \texttt{11pt} and \texttt{12pt} (the default) set the size of the text of the letter and are passed to the class \texttt{letter}.
+  The header is always set in 12\,pt and the footer in 8\,pt.
+\end{itemize}
+
+If several options of one group are given, the class uses the one that it declares last, whatever their order in \verb|\documentclass|: \texttt{english} wins over \texttt{polski}, \texttt{droid} over \texttt{arimo} and \texttt{arimo} over \texttt{dejavu}, \texttt{nopagenr} over \texttt{pagenr} and \texttt{pagenr} over \texttt{autopagenr}, and \texttt{12pt} over \texttt{11pt} and \texttt{11pt} over \texttt{10pt}.
+
+The class declares no other options.
+An option that it does not declare causes no error: it becomes a global option, which the packages loaded by the class may take.
+For instance, \texttt{draft} makes \texttt{graphicx} print frames with the names of the files instead of the logos, \texttt{twoside} makes \texttt{geometry} set up a two-sided layout, and \texttt{a4paper} is accepted silently.
+Other options have no effect and only cause the warning ``Unused global option(s)'', e.g.\ \texttt{letterpaper} (the paper stays A4) or \texttt{14pt}; this holds also for the options of the class \texttt{letter}, e.g.\ \texttt{fleqn}, which are not passed to it.
+
+\section{The header and the footer}\label{sec:contents}
+
+The texts of the header and of the footer are set by redefining the following commands with \verb|\renewcommand|, e.g.\ \verb|\renewcommand{\UWinstitute}{Instytut Informatyki}|.
+They are usually set in the preamble, but they can be changed anywhere.
+The header uses the values in force where \verb|\UWheader| is used.
+The footer of a page uses the values in force when the page is output, so a change in the text of the letter applies to the footer of the page on which it is made and of all the following pages.
+
+The lines of the header, in the order in which they are printed:
+\begin{itemize}
+\item \verb|\UWfaculty|: the faculty, in bold, in the colour \texttt{UWlBlue}.
+  The default is ``Wydział Matematyki, Informatyki i Mechaniki'' with the option \texttt{polski} and ``Faculty of Mathematics, Informatics and Mechanics'' with \texttt{english}; it can be changed for a unit outside the Faculty.
+\item \verb|\UWinstitute|: the institute, in the regular weight, in the colour \texttt{UWlBlue}.
+  It is empty by default.
+\item \verb|\UWfunction|: the function of the person, in bold, in the colour \texttt{UWdGray}.
+  It is empty by default.
+\item \verb|\UWperson|: the title, the name and the surname of the person, in the regular weight, in the colour \texttt{UWdGray}.
+  It is empty by default.
+\end{itemize}
+All the lines are set in 12\,pt.
+A line whose value is empty is left out, and the following lines move up.
+Each value is printed in a single line; a line break \verb|\\| inside a value causes an error.
+
+The contents of the footer:
+\begin{itemize}
+\item \verb|\UWaddress|: the address.
+  The default is ``ul. Banacha 2, 02-097 Warszawa, Polska'' with the option \texttt{polski} and ``Banacha 2, 02-097 Warsaw, Poland'' with \texttt{english}.
+\item \verb|\UWphone|: the phone number, empty by default.
+\item \verb|\UWemail|: the e-mail address, empty by default.
+\item \verb|\UWprefAddress|, \verb|\UWprefPhone| and \verb|\UWprefEMail|: the prefixes printed before the address, the phone number and the e-mail address, e.g.\ ``\verb*|tel. |''.
+  By default, in both languages, the first two are empty and the third one is ``\verb*|e-mail: |''.
+\item \verb|\UWfootText|: the whole text of the footer.
+  Its default definition is the following.
+\begin{verbatim}
+\newcommand{\UWfootText}{
+\UWifnempty{\UWaddress}{\UWprefAddress\UWaddress\\}
+\UWifnempty{\UWphone}{\UWprefPhone\href{tel:\UWphone}{\UWphone}\\}
+\UWifnempty{\UWemail}{\UWprefEMail\href{mailto:\UWemail}{\UWemail}}
+}
+\end{verbatim}
+  It prints a line for each non-empty value among the address, the phone number and the e-mail address, preceded by its prefix.
+  The phone number is a link to \texttt{tel:} followed by \verb|\UWphone| as it is given, spaces included, and the e-mail address is a link to \texttt{mailto:} followed by \verb|\UWemail|; the links are not highlighted.
+  The lines of the address and of the phone number end with a line break also when they are the last ones, so when \verb|\UWemail| is empty, the footer ends with an empty line and its text stands one line higher.
+  In most cases there is no need to redefine \verb|\UWfootText|.
+  If it is redefined, the other commands of the footer matter only as far as the new definition uses them; for instance, \verb|example3.tex| uses the following definition, which prints the three lines with their prefixes also for empty values, and makes no links.
+\begin{verbatim}
+\renewcommand{\UWfootText}{
+\UWprefAddress\UWaddress\\
+\UWprefPhone\UWphone\\
+\UWprefEMail\UWemail
+}
+\end{verbatim}
+\end{itemize}
+The footer is printed on every page, whether the page has the header or not, in 8\,pt, in the regular weight and in black.
+Its lines are aligned left and are 1\,em of the font of the text apart, i.e.\ 12\,pt with the default size \texttt{12pt}.
+
+A value is empty only if its definition contains nothing at all, as the first definition below.
+A definition that merely prints nothing is not empty and gives an empty line, as the other definitions below.
+\begin{verbatim}
+\renewcommand{\UWinstitute}{}                 % empty
+\newcommand{\myEmptyString}{}
+\renewcommand{\UWinstitute}{\myEmptyString}   % not empty
+\renewcommand{\UWinstitute}{\empty}           % not empty
+\renewcommand{\UWinstitute}{ }                % not empty
+\end{verbatim}
+The end of a line counts as a space, so a definition with \verb|{| at the end of one line and \verb|}| at the beginning of the next one is not empty either, unless the first line ends with \verb|%|.
+The same holds for \verb|\UWaddress|, \verb|\UWphone| and \verb|\UWemail| in the default \verb|\UWfootText|.
+The test is made by \verb|\UWifnempty{\cmd}{text}|, which prints \texttt{text} if the macro \verb|\cmd| is not empty in the sense of the command \verb|\ifdefempty| of the package \texttt{etoolbox}.
+The command \verb|\UWifempty{\cmd}{text}| prints \texttt{text} if the macro is empty.
+Both can be used in an own definition of \verb|\UWfootText|.
+
+The logos:
+\begin{itemize}
+\item \verb|\UWlogo|: the file with the logo of the University.
+  The default is \texttt{UWlogoPL.pdf} with the option \texttt{polski} and \texttt{UWlogoEN.pdf} with \texttt{english}.
+\item \verb|\MIMlogo|: the file with the logo of the Faculty.
+  The default is \texttt{MIMlogo.pdf}.
+\end{itemize}
+They can be redefined to use other files, e.g.\ \verb|\renewcommand{\UWlogo}{UWlogoEN.pdf}| in a Polish letter.
+An empty value causes the error ``File `' not found'', so the logos cannot be removed in this way.
+
+\section{Commands used in the letter}\label{sec:commands}
+
+\begin{itemize}
+\item \verb|\UWheader| prints the header.
+  The logos of the University and of the Faculty, the gray vertical bar between them and, if it is set, the background \verb|\UWoverlap| (Section~\ref{sec:layout}) are placed at fixed positions on the page.
+  The lines with the faculty, the institute, the function and the person are placed relatively to the place where \verb|\UWheader| is used, so they are at their fixed positions only if \verb|\UWheader| is the first thing on the page.
+  Text before \verb|\UWheader| on the same page moves the lines down and overlaps with the logos.
+  \verb|\UWheader| has to be followed by a blank line (or \verb|\par|); otherwise the following text continues the paragraph of the header and is printed next to its last line (for instance, a date given with \verb|\UWdate| is then broken into two lines).
+  The text below the header starts after the last printed line of the header, so every printed line moves it down by 15.6\,pt; its distance from the header is controlled by \verb|\UWheadsep| (Section~\ref{sec:layout}).
+  Usually the header is printed only on the first page.
+  It can be used again at the top of a later page, after \verb|\newpage|, e.g.\ to put several letters into one file as in \verb|example3.tex|; it then uses the values in force at that point.
+\item \verb|\UWdate{...}| prints its argument, e.g.\ \verb|\UWdate{Warszawa, \today}|, at the right end of a line and adds a vertical space of 1.5\,cm below it.
+  The argument is followed by a space, so it ends one interword space (about 1\,mm) before the right margin.
+\item \verb|\UWaddressee[...]{...}| prints the addressee, given as the mandatory argument with the lines separated by \verb|\\|.
+  The text is aligned left and indented from the left margin by the optional argument, by default \verb|0.5\textwidth|, and a vertical space of 1.5\,cm is added below it.
+\item \verb|\UWsignature[...]{...}| prints the signature in the same way, indented by the optional argument (by default \verb|0.5\textwidth|), with a vertical space of 4\,mm above and below it.
+  A space for the handwritten signature can be left with \verb|\\[...]|, as in the following example.
+\begin{verbatim}
+\UWsignature{Z wyrazami szacunku,\\[10mm]Jan Kowalski}
+\end{verbatim}
+\end{itemize}
+The rest of the letter is ordinary text.
+
+\section{Layout}\label{sec:layout}
+
+The following elements are placed at fixed positions, measured from the edges of the A4 page, and they do not depend on the margins.
+\begin{itemize}
+\item The logo of the University: its upper left corner is 20\,mm from the left edge and 15\,mm from the top edge, and it is 35\,mm high.
+\item The logo of the Faculty: its upper right corner is 176.1\,mm from the left edge and 10.4\,mm from the top edge, and it is 43.8\,mm high.
+\item The vertical bar between the logos: it is 115.1\,mm from the left edge and runs from 27\,mm to 39.7\,mm from the top edge, 0.9\,pt wide, with round ends, in the colour \texttt{UWdGray}.
+\item The lines of the header: they start 56\,mm from the left edge, the baseline of the first printed line is 53\,mm from the top edge, and every next line is $1.3\times12\,\mathrm{pt}=15.6\,\mathrm{pt}$ lower, provided that \verb|\UWheader| is the first thing on the page and that the margins are within the limits given below.
+\item The footer: its text starts 56\,mm from the left edge, and its lines are stacked upwards from the point 10\,mm above the bottom edge, i.e.\ the bottom of its last line is 10\,mm above the bottom edge.
+\item The page number: its lower right corner is 10\,mm from the right and from the bottom edge.
+\end{itemize}
+
+The margins of the text are 35\,mm on the left and on the right and 30\,mm at the top and at the bottom (\texttt{geometry}, with \texttt{marginparwidth=20mm}).
+The left margin of 35\,mm runs through the middle of the eagle of the logo of the University; another reasonable choice is 56\,mm, which aligns the text with the lines of the header.
+The margins can be changed with \verb|\geometry| in the preamble, e.g.\ \verb|\geometry{left=56mm}|, within the following limits.
+\begin{itemize}
+\item The left margin: up to 56\,mm the lines of the header stay at their position; with a larger left margin they start at the left margin.
+\item The top margin: on a page that starts with \verb|\UWheader| the position of the text does not depend on the top margin, since the text follows the header; the top margin applies to the pages without the header.
+  The lines of the header stay at their position as long as the top margin ends above the top of their first line, i.e.\ up to about 49\,mm (with 50\,mm they are already 0.2\,mm lower); the comments of the class recommend at most about 45\,mm.
+\item The bottom margin: the footer with three lines reaches about 21\,mm above the bottom edge, so with a bottom margin of 22\,mm or less the last line of a full page touches it; the comments of the class recommend at least about 25\,mm.
+\end{itemize}
+
+\verb|\UWheadsep| sets the space between the header and the text below it; the default is 10\,mm.
+Precisely, the first baseline of the text below the header is lower than the lowest point of the header by \verb|\UWheadsep|${}-6.5\,\mathrm{mm}+{}$\verb|\parskip|${}+{}$\verb|\baselineskip|, so a change of \verb|\UWheadsep| moves the text by the same length.
+The lowest point of the header is the bottom of its last printed line; when all four lines are empty, it is 50\,mm from the top edge.
+
+The line spacing of the text is \verb|\linespread{1.3}|, which the comments of the class compare to the one-and-a-half spacing of word processors.
+It can be changed with \verb|\linespread| in the preamble, e.g.\ \verb|\linespread{1.0}| for single spacing, without moving the lines of the header, which have their own fixed spacing.
+The class uses \verb|\raggedbottom|: the paragraphs are not spread to fill the page, so empty space may be left at the bottom of a page.
+
+The class defines the following colours of the Identification Codebook (package \texttt{xcolor}, RGB values):
+\begin{itemize}
+\item \texttt{UWdBlue} (0,68,124), \texttt{UWlBlue} (0,146,206) and \texttt{UWsBlue} (0,23,69);
+\item \texttt{UWblack} (0,0,0) and \texttt{UWwhite} (255,255,255);
+\item \texttt{UWlGray} (177,179,182) and \texttt{UWdGray} (128,130,133).
+\end{itemize}
+With the option \texttt{grayscale}, \texttt{UWdBlue}, \texttt{UWlBlue} and \texttt{UWsBlue} are (58,58,58), (120,120,120) and (21,21,21) instead.
+The class itself uses \texttt{UWlBlue} and \texttt{UWdGray}.
+All the colours can be used in the text, e.g.\ \verb|\textcolor{UWdBlue}{...}|, as can the colours of the option \texttt{dvipsnames} of \texttt{xcolor}.
+
+\verb|\UWoverlap| is the name of a file, empty by default.
+If it is set, the file is drawn, stretched to the size of the page, behind the logos and the text of every page on which \verb|\UWheader| is used.
+It serves to check the layout against the official templates converted to PDF, which are in the folder \texttt{templates} of the repository and in the archives \texttt{templates.zip} and \texttt{templates.tar.gz} on the website.
+The name of the file is given relatively to the main file, as in the following example, where the dummy values make the footer have three lines like the footer of the template.
+\begin{verbatim}
+\documentclass[polski,arimo]{UWletterhead}
+\renewcommand{\UWaddress}{ul.}
+\renewcommand{\UWphone}{tel}
+\renewcommand{\UWemail}{\ }
+\renewcommand{\UWoverlap}{templates/Wydzial_PL_2.pdf}
+\begin{document}
+\UWheader
+
+\end{document}
+\end{verbatim}
+The templates \verb|Wydzial_PL_2.pdf|, \verb|Wydzial_EN_2.pdf| and \verb|MIM_logo.pdf| are of January 2020 and have the logo of the Faculty, as the class does.
+The other templates are of February 2017; they have no logo of the Faculty, and their lines of the header are 3\,mm higher than in the class.
+The remaining differences are listed in Section~\ref{sec:differences}.
+Distances in a PDF file can also be measured with the measuring tool of a PDF viewer, e.g.\ of Adobe Acrobat Reader.
+
+\section{Fixed settings and limitations}\label{sec:fixed}
+
+The remaining properties are fixed and cannot be changed by the options of the class:
+\begin{itemize}
+\item the class \texttt{letter} is loaded with the option \texttt{a4paper} and the option of the font size, and the paper is always A4;
+\item the font encoding is T1 (\texttt{fontenc});
+\item the colour names of the option \texttt{dvipsnames} are available (\texttt{xcolor} with \texttt{dvipsnames});
+\item links are active but not highlighted (\texttt{hyperref} with \texttt{hidelinks});
+\item the page style \texttt{plain} is redefined with \texttt{fancyhdr} to print the footer and the page number, and it is used on all pages; the comments of the class advise against changing it, and a page with another style, e.g.\ after \verb|\thispagestyle{empty}|, has no footer and no page number;
+\item as in \texttt{letter}, paragraphs are not indented and are separated by vertical space.
+\end{itemize}
+Apart from the packages mentioned above, the class loads \texttt{ifthen}, \texttt{zref-totpages}, \texttt{polski} (in a Polish letter), \texttt{droidsans} or \texttt{DejaVuSansCondensed} (with the corresponding option), \texttt{geometry}, \texttt{graphicx}, \texttt{tikz} (with the library \texttt{calc}), \texttt{etoolbox} and \texttt{changepage}.
+
+Further options of \texttt{xcolor} can be passed before \verb|\documentclass|, and the settings of \texttt{hyperref} can be changed after it with \verb|\hypersetup|, for instance as follows.
+\begin{verbatim}
+\PassOptionsToPackage{table}{xcolor}
+\documentclass{UWletterhead}
+\hypersetup{pdftitle={...}, pdfauthor={...}, colorlinks}
+\end{verbatim}
+The version 3.02 of \texttt{xcolor} (in TeX Live 2025) also accepts \verb|\usepackage[table]{xcolor}| after \verb|\documentclass|.
+Loading \texttt{hyperref} again with options gives the error ``Option clash for package hyperref'', and passing \texttt{colorlinks} to it with \verb|\PassOptionsToPackage| has no effect, because the option \texttt{hidelinks} of the class is processed after it.
+
+The class \texttt{letter} has no sectioning commands (\verb|\section|, \verb|\subsection|, \verb|\paragraph|, \verb|\chapter|), no \verb|\appendix|, \verb|\maketitle| and \verb|\tableofcontents|, and no environments \texttt{figure}, \texttt{table}, \texttt{abstract} and \texttt{thebibliography}; using any of them is an error.
+Lists, footnotes, \verb|\marginpar|, tables made with \texttt{tabular}, the environments \texttt{verbatim}, \texttt{quote} and \texttt{center}, mathematics and pictures included with \verb|\includegraphics| work as usual.
+The environment \texttt{letter} of the class \texttt{letter}, with its commands \verb|\opening| and \verb|\closing|, can be used as well, but \verb|\opening| switches its page to a page style of \texttt{letter}, so that page has no footer; the commands of Section~\ref{sec:commands} are meant to be used instead.
+
+The font options change only the default family of the letter.
+The other two families (\verb|\textrm| or \verb|\textsf|, and \verb|\texttt|) and mathematics use the Computer Modern fonts (in mathematics the standard ones, in the text their T1 versions).
+None of the three fonts has small capitals: \verb|\textsc| gives the upright shape with a font warning.
+
+The Identification Codebook provides only for the regular and the bold variant of Arimo, and the option \texttt{arimo} has the following limitations.
+\begin{itemize}
+\item There is no italic and no slanted shape: \verb|\textit| and \verb|\textsl| give the upright shape with a font warning.
+\item The metrics contain no kerning and no ligatures, so the input ligatures \verb|--|, \verb|---|, \verb|``|, \verb|''|, \verb|<<|, \verb|>>| and \verb|,,| are not converted into dashes and quotation marks.
+  These characters can be typed directly (–, —, „, ”, «, ») or with commands such as \verb|\textendash|, \verb|\textemdash|, \verb|\quotedblbase| and \verb|\textquotedblright|.
+\item Every letter of the T1 encoding is printed except \verb|\SS|, for which pdf\TeX{} warns that the glyph \texttt{Germandbls} is not found.
+\end{itemize}
+
+The class does not load \texttt{inputenc}.
+Current \LaTeX{} reads the input in UTF-8, so Polish letters can be typed directly, and \verb|\usepackage[utf8]{inputenc}|, still used in \verb|test.tex|, is not needed.
+A file in another encoding needs \texttt{inputenc}, e.g.\ \verb|\usepackage[cp1250]{inputenc}| for the Windows encoding cp1250 or \verb|\usepackage[latin2]{inputenc}| for ISO Latin~2.
+
+The class is meant for pdf\LaTeX{}, which is the only supported and tested engine.
+\texttt{latex} with the DVI output stops with an error, as it cannot include the logos, which are PDF files.
+With the default font, the examples also compile with Xe\LaTeX{} and Lua\LaTeX{}.
+
+\section{Differences from the Codebook and the templates}\label{sec:differences}
+
+The class follows the \href{https://promocja.uw.edu.pl/identyfikacja-wizualna/ksiega-identyfikacji-wizualnej/}{Identification Codebook} of the University in the edition of 2017; the edition of October 2021 has the same rules of typography (on its page~16) and the same placement of the logo of the University, of the footer and of the page number (page~17).
+The Codebook and the official templates differ in places, and so does the class:
+\begin{itemize}
+\item The function and the name.
+  The Codebook requires the function in bold black and the title, the name and the surname in regular black (page~16).
+  The official templates print both in regular gray, sometimes in one line and sometimes in two, and the example of a letterhead on page~18 of the Codebook prints the function in regular gray and the name in bold gray.
+  The class prints the function in bold and the person in the regular weight, both in gray (\texttt{UWdGray}), in separate lines; to get a single line, put both texts into \verb|\UWperson| (or into \verb|\UWfunction|).
+\item The position of the address footer.
+  The Codebook places the address footer 56\,mm from the left edge of the page (page~17), whereas in the official templates it starts 53.5\,mm from it, with the lines about 9\,pt apart.
+  The class follows the Codebook, and its lines are 1\,em of the font of the text apart.
+\item The margins.
+  The Codebook of 2017 specifies neither the margins nor the spaces between the elements, e.g.\ between the header and the text.
+  The values of the class are its own choice, and they can be changed with \verb|\geometry| and \verb|\UWheadsep| (Section~\ref{sec:layout}).
+\item The logo of the Faculty in English.
+  The bar and the logo of the Faculty are 6\,mm closer to the logo of the University in the English template of January 2020, \verb|Wydzial_EN_2.pdf|, than in the Polish one, \verb|Wydzial_PL_2.pdf|.
+  The class places them as in the Polish template also with the option \texttt{english}.
+\item The lines of the header.
+  They are placed as in the templates of January 2020; in the templates of February 2017 they are 3\,mm higher.
+\item The font.
+  The Codebook requires the font Arimo for all the elements of the document.
+  The class uses Droid Sans by default, which is similar to Arimo but different; Arimo is used with the option \texttt{arimo}, with the limitations described in Section~\ref{sec:fixed}.
+\end{itemize}
+
+\end{document}

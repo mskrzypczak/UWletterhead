@@ -1,0 +1,61 @@
+% The defaults of the class: Polish, the font Droid, 12pt, the colours, and
+% no page number in a document of one page. Checks also where the header,
+% the footer and the body text are put on the page.
+\documentclass{UWletterhead}
+\input{tests/checks}
+
+\CheckEqual{the logo of the University}{\UWlogo}{UWlogoPL.pdf}
+\CheckEqual{the logo of the Faculty}{\MIMlogo}{MIMlogo.pdf}
+\CheckEqual{the faculty}{\UWfaculty}
+	{Wydzia{\l} Matematyki, Informatyki i Mechaniki}
+\CheckEqual{the address}{\UWaddress}
+	{ul. Banacha~2, 02-097 Warszawa, Polska}
+\CheckEqual{the prefix of the e-mail}{\UWprefEMail}{e-mail: }
+\CheckEqual{the space below the header}{\UWheadsep}{10mm}
+\CheckEqual{the line spacing}{\baselinestretch}{1.3}
+\CheckEqual{the package polski}
+	{\ifcsname ver@polski.sty\endcsname loaded\else missing\fi}{loaded}
+
+\CheckColour{UWdBlue}{0,68,124}
+\CheckColour{UWlBlue}{0,146,206}
+\CheckColour{UWsBlue}{0,23,69}
+\CheckColour{UWblack}{0,0,0}
+\CheckColour{UWwhite}{255,255,255}
+\CheckColour{UWlGray}{177,179,182}
+\CheckColour{UWdGray}{128,130,133}
+
+\newcommand{\Faculty}{Wydzia{\l} Matematyki, Informatyki i Mechaniki}
+\renewcommand{\UWfaculty}{\Mark{faculty}\Faculty}
+\renewcommand{\UWprefAddress}{\Mark{address}}
+\renewcommand{\UWprefPhone}{\Mark{phone}}
+\renewcommand{\UWprefEMail}{\Mark{email}}
+\renewcommand{\thepage}{\arabic{page}\Mark{number}}
+\newlength{\Depth}
+
+\begin{document}
+\UWheader
+
+\Mark{body}Za\.z\'o{\l}\'c g\k{e}\'sl\k{a} ja\'z\'n.
+ZA\.Z\'O{\L}\'C G\k{E}\'SL\k{A} JA\'Z\'N.
+\textbf{Za\.z\'o{\l}\'c g\k{e}\'sl\k{a} ja\'z\'n.
+ZA\.Z\'O{\L}\'C G\k{E}\'SL\k{A} JA\'Z\'N.}
+
+\CheckEqual{the font family}{\FontFamily}{droidsans}
+\CheckEqual{the font size}{\FontSize}{12}
+
+% The lines of the header start 56 mm from the left edge, the first one has
+% its baseline 53 mm from the top edge.
+\CheckPos{faculty}{56mm}{53mm}
+
+% The body text starts at the left margin; its first baseline is below the
+% lowest point of the header (here the depth of its only line) by
+% \UWheadsep - 6.5mm and by the usual distance of two paragraphs.
+\settodepth{\Depth}{\fontsize{12pt}{1em}\selectfont\textbf{\Faculty}}
+\CheckPos{body}{35mm}{53mm+\Depth-6.5mm+10mm+\parskip+\baselineskip}
+
+% The footer has only the address; one page, hence no page number.
+\CheckPos{address}{56mm}{\PosY{address}}
+\CheckAbsent{phone}
+\CheckAbsent{email}
+\CheckAbsent{number}
+\end{document}

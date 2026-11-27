@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>UWletterhead — LaTeX class for official documents of the Faculty of Mathematics, Informatics and Mechanics of the University of Warsaw</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="UWletterhead: a LaTeX class that enables to create official PDF documents for the Faculty of Mathematics, Informatics and Mechanics of the University of Warsaw. Examples, manual and download.">
+  <style>
+    :root { --fg: #111; --bg: #fff; --muted: #666; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg); }
+    body { font: 16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif;
+           max-width: 800px; margin: 2.5rem auto; padding: 0 1rem; }
+    header h1 { font-size: 1.8rem; margin: 0 0 .25rem; }
+    header p  { margin: 0 0 1.25rem; color: var(--muted); }
+    header img, header h1 { display: inline-block; vertical-align: middle; }
+    .card { border: 1px solid #ddd; padding: 1rem 1.25rem; border-radius: .5rem; margin: 1rem 0; }
+    .card h2 { font-size: 1.25rem; margin: 0 0 .5rem; }
+    summary { cursor: pointer; }
+    summary h2 { display: inline; }
+    ul { padding-left: 1.25rem; }
+    .list { list-style: none; margin: .5rem 0 0; padding: 0; }
+    li { margin: .5rem 0; }
+    a { color: inherit; text-decoration: underline; }
+    footer { margin-top: 2rem; color: var(--muted); font-size: .9375rem; }
+    code { background: #f5f5f5; padding: .1rem .3rem; border-radius: .25rem; }
+    pre { background: #f5f5f5; padding: .75rem 1rem; border-radius: .25rem; overflow-x: auto; font-size: .875rem; tab-size: 4; }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="LOGO" width="100" height="100">
+    <h1>UWletterhead</h1>
+    <p>UWletterhead is a <a href="https://en.wikipedia.org/wiki/LaTeX">LaTeX</a> class package that enables to
+       create official PDF documents for the
+       <a href="https://www.mimuw.edu.pl/">Faculty of Mathematics, Informatics and Mechanics</a> of the
+       <a href="https://en.uw.edu.pl/">University of Warsaw</a>. The package is based on the official
+       <a href="https://promocja.uw.edu.pl/identyfikacja-wizualna/ksiega-identyfikacji-wizualnej/">Identification Codebook</a>
+       of the University of Warsaw and on the official
+       <a href="https://www.mimuw.edu.pl/pl/wydzial/logo-wydzialu/">logo</a> of the Faculty.</p>
+  </header>
+
+  <section class="card">
+    <h2>Example</h2>
+<pre>
+PLACEHOLDER_test.tex
+</pre>
+    <a href="test.pdf" target="_blank"><img src="test.svg" alt="test.pdf" width="450"
+       style="background-color: white; margin-top: 12px; max-width: 100%; border: 1px solid #ddd"></a>
+    <p>Other examples:</p>
+    <ul class="list">
+      <li>A letter in English: <a href="example1.pdf">example1.pdf</a>
+          (source: <a href="UWletterhead/example1.tex">example1.tex</a>)</li>
+      <li>A two-page letter of the Dean, in Polish: <a href="example2.pdf">example2.pdf</a>
+          (source: <a href="UWletterhead/example2.tex">example2.tex</a>)</li>
+      <li>An annotated example of the options and commands: <a href="example3.pdf">example3.pdf</a>
+          (source: <a href="UWletterhead/example3.tex">example3.tex</a>, shown <a href="#example3">below</a>)</li>
+      <li>The settings of the header for the units of the Faculty:
+          <a href="UWletterhead/units_list.tex">units_list.tex</a></li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>Quick Start Guide</h2>
+    <ul>
+      <li>download the <a href="UWletterhead.zip">package</a> and unpack it</li>
+      <li>go to the directory <code>UWletterhead</code></li>
+      <li>build <a href="UWletterhead/test.tex"><code>test.tex</code></a> using <code>pdflatex</code>
+          <b>twice</b> (execute <code>pdflatex test.tex</code> two times): the logos, the footer and
+          the page numbers are positioned relatively to the page and are in place only after the
+          second run</li>
+      <li>open the new file <code>test.pdf</code></li>
+    </ul>
+    <p>The package needs the files
+       <a href="UWletterhead/UWletterhead.cls"><code>UWletterhead.cls</code></a>,
+       <a href="UWletterhead/UWlogoPL.pdf"><code>UWlogoPL.pdf</code></a>,
+       <a href="UWletterhead/UWlogoEN.pdf"><code>UWlogoEN.pdf</code></a> and
+       <a href="UWletterhead/MIMlogo.pdf"><code>MIMlogo.pdf</code></a>, and for the option <code>arimo</code>
+       also <a href="UWletterhead/Arimo-Regular.ttf"><code>Arimo-Regular.ttf</code></a>,
+       <a href="UWletterhead/Arimo-Regular.tfm"><code>Arimo-Regular.tfm</code></a>,
+       <a href="UWletterhead/Arimo-Bold.ttf"><code>Arimo-Bold.ttf</code></a>,
+       <a href="UWletterhead/Arimo-Bold.tfm"><code>Arimo-Bold.tfm</code></a>,
+       <a href="UWletterhead/T1Arimo.fd"><code>T1Arimo.fd</code></a> and
+       <a href="UWletterhead/T1-WGL4.enc"><code>T1-WGL4.enc</code></a>,
+       to be put in the current directory of your <code>*.tex</code> file!</p>
+    <p>For more information, see the <a href="manual.pdf">manual</a>.</p>
+  </section>
+
+  <section class="card">
+    <h2>Download</h2>
+    <ul class="list">
+      <li><a href="UWletterhead.zip"><code>UWletterhead.zip</code></a>,
+          <a href="UWletterhead.tar.gz"><code>UWletterhead.tar.gz</code></a> — the files necessary to
+          use UWletterhead, together with the examples, the manual, the licenses and
+          <code>CHANGELOG.txt</code>, in one folder</li>
+      <li><a href="manual.pdf"><code>manual.pdf</code></a> — the manual of the class</li>
+      <li><a href="UWletterhead/UWletterhead.cls"><code>UWletterhead.cls</code></a> — the class file alone</li>
+      <li><a href="templates.zip"><code>templates.zip</code></a>,
+          <a href="templates.tar.gz"><code>templates.tar.gz</code></a> — the official templates
+          transformed to PDF</li>
+      <li><a href="https://github.com/mskrzypczak/UWletterhead">github.com/mskrzypczak/UWletterhead</a> —
+          the repository with all the files and their history.</li>
+    </ul>
+  </section>
+
+  <details class="card" id="layout">
+    <summary title="Discrepancies inside the specification."><h2>Layout issues</h2></summary>
+
+    <h3>Function &amp; name font</h3>
+    <p>There is a conflict between
+       <a href="https://promocja.uw.edu.pl/identyfikacja-wizualna/ksiega-identyfikacji-wizualnej/">Identification Codebook</a>
+       and the <a href="https://promocja.uw.edu.pl/identyfikacja-wizualna/papiery-firmowe/">examples</a>
+       given at the <a href="https://promocja.uw.edu.pl/identyfikacja-wizualna/">website</a> of
+       Identification Code (the page with the examples of the Faculty is protected with a password).</p>
+    <p>The codebook (page 16) defines that:</p>
+    <ul>
+      <li>the function of a person should be given in bold, black</li>
+      <li>the title, name, and surname should be given in regular font, black.</li>
+    </ul>
+    <p>The examples use regular font, gray for both. Sometimes the function and the rest
+       is put in one line, sometimes in separate lines. The example of a letterhead in the codebook
+       itself (page 18) uses the opposite weights: the function in regular font, gray, and the name
+       in bold, gray.</p>
+    <p><b>The current version of the template follows Identification Codebook (page 16), except for
+       the color that is gray not black.</b></p>
+
+    <h3>Address footer position</h3>
+    <p><a href="https://promocja.uw.edu.pl/identyfikacja-wizualna/ksiega-identyfikacji-wizualnej/">Identification Codebook</a>
+       specifies that the address footer should be aligned left and positioned 56 mm from the left
+       border of the page. The
+       <a href="https://promocja.uw.edu.pl/identyfikacja-wizualna/papiery-firmowe/">examples</a>
+       violate this, the distance is 53.5 mm instead of 56 mm.</p>
+    <p><b>The current version of the template follows Identification Codebook.</b></p>
+
+    <h3>Logo of the Faculty in English documents</h3>
+    <p>In the English template of January 2020 (<code>Wydzial_EN_2.pdf</code>) the bar and the logo
+       of the Faculty are 6 mm closer to the logo of the University than in the Polish one
+       (<code>Wydzial_PL_2.pdf</code>).</p>
+    <p><b>The current version of the template puts them as in the Polish template, also with the
+       option <code>english</code>.</b></p>
+
+    <h3>Margins and padding</h3>
+    <p><a href="https://promocja.uw.edu.pl/identyfikacja-wizualna/ksiega-identyfikacji-wizualnej/">Identification Codebook</a>
+       does not specify the general margins of the documents nor spacing between the elements (e.g.
+       the header and the body text). These values are chosen arbitrarily and can be modified by the
+       user (see <code>\geometry</code> and <code>\UWheadsep</code> macros).</p>
+
+    <h3>Arimo font</h3>
+    <p><a href="https://promocja.uw.edu.pl/identyfikacja-wizualna/ksiega-identyfikacji-wizualnej/">Identification Codebook</a>
+       specifies that the font used for all the elements of the document should be Arimo. The class
+       comes with this font, but its metrics (<code>Arimo-Regular.tfm</code>, <code>Arimo-Bold.tfm</code>)
+       have no kerning and no ligatures, so <code>--</code>, <code>---</code>, <code>,,</code>,
+       <code>''</code>, <code>&lt;&lt;</code> and <code>&gt;&gt;</code> are not converted into dashes,
+       quotation marks and guillemets, and there is no italic shape: LaTeX substitutes the upright
+       shape, with a font warning. Every letter of the T1 encoding is printed except <code>\SS</code>;
+       before the correction of <code>T1-WGL4.enc</code> on 27.11.2026, also Ż and ż were missing.</p>
+    <p><b>The current version of the template allows to use Arimo font by including option
+       <code>arimo</code> in the <code>\documentclass[]{UWletterhead}</code> arguments.</b>
+       However the default font for UWletterhead is Droid, which is similar to Arimo but different.</p>
+
+    <h3>Verification</h3>
+    <p>It is possible to verify the relative alignment of the elements in the document in comparison
+       to the <a href="https://promocja.uw.edu.pl/identyfikacja-wizualna/papiery-firmowe/">examples</a>
+       presented at the webpage of Identification Code. These examples (transformed to PDF) are
+       available as <code>templates/&lt;name&gt;.pdf</code> on this site, for instance
+       <a href="templates/I-Informatyki_PL.pdf"><code>templates/I-Informatyki_PL.pdf</code></a>.
+       You can also download all of them in an archive:
+       <a href="templates.zip"><code>templates.zip</code></a> or
+       <a href="templates.tar.gz"><code>templates.tar.gz</code></a>.</p>
+    <p>To use one of those examples, you can include
+       <code>\renewcommand{\UWoverlap}{path-to-a-given-file}</code> in the preamble, for instance:</p>
+<pre>
+\documentclass[polski,arimo]{UWletterhead}
+
+\renewcommand{\UWinstitute}{Instytut Informatyki}
+
+\renewcommand{\UWaddress}{ul.}
+\renewcommand{\UWphone}{tel}
+\renewcommand{\UWemail}{\ }
+
+\renewcommand{\UWoverlap}{templates/I-Informatyki_PL.pdf}
+
+\begin{document}
+\UWheader
+
+
+\end{document}
+</pre>
+    <p>There are certain discrepancies, as discussed above. Moreover, the class places the lines with
+       the unit names as in the templates of January 2020 (<code>MIM_logo.pdf</code>,
+       <code>Wydzial_PL_2.pdf</code>, <code>Wydzial_EN_2.pdf</code>); in the older templates of
+       February 2017 they are 3 mm higher.</p>
+
+    <h3>Measurement</h3>
+    <p>An external way is to use Adobe Acrobat Reader (or other tool) to measure the relative
+       positions of the elements of the layout. For instance Adobe Acrobat provides a tool
+       called <i>Measuring tool</i> under <i>Edit &gg; Analysis</i> menu.</p>
+  </details>
+
+  <details class="card" id="UWclass">
+    <summary><h2>UWletterhead.cls</h2></summary>
+<pre>
+PLACEHOLDER_UWletterhead.cls
+</pre>
+  </details>
+
+  <details class="card" id="example3">
+    <summary><h2>example3.tex</h2></summary>
+<pre>
+PLACEHOLDER_example3.tex
+</pre>
+  </details>
+
+  <details class="card" id="changelog">
+    <summary><h2>CHANGELOG.txt</h2></summary>
+<pre>
+PLACEHOLDER_CHANGELOG.txt
+</pre>
+  </details>
+
+  <footer>
+    <div><a href="https://www.mimuw.edu.pl/~mskrzypczak/">Michał Skrzypczak</a> — see also the other
+         <a href="https://www.mimuw.edu.pl/~mskrzypczak/projects/">projects</a></div>
+    <div>The class is under the <a href="UWletterhead/LICENSE">MIT license</a>, the Arimo fonts are under
+         the <a href="UWletterhead/Arimo-LICENSE.txt">Apache License 2.0</a>, and the logos and the
+         templates belong to the <a href="https://en.uw.edu.pl/">University of Warsaw</a></div>
+    <div>Built from <code>mskrzypczak/UWletterhead</code> via GitHub Actions.</div>
+    <div>Last updated: <time id="last-updated">PLACEHOLDER_DATETIME</time></div>
+  </footer>
+</body>
+</html>

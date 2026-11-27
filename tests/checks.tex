@@ -1,0 +1,80 @@
+% Macros shared by the test documents, read with \input{tests/checks}.
+%
+% A test document uses the class as any letter does. It puts \Mark{label}
+% into the texts that the class typesets and compares the positions of the
+% marks, known from the previous run, with the expected ones. Every check
+% writes one line to the log, "TEST OK: ..." or "TEST FAILED: ...", and
+% tests/run.sh looks for these lines after the last run. A failed check
+% must not stop the compilation: the positions in the footer are correct
+% only from the third run on.
+
+\RequirePackage{zref-savepos}
+
+\makeatletter
+
+% \Mark{label} remembers the place where it is typeset. \PageMark{label}
+% does the same with the number of the page appended to the label.
+\DeclareRobustCommand{\Mark}[1]{\leavevmode\zsavepos{#1}}
+\DeclareRobustCommand{\PageMark}[1]{\Mark{#1\arabic{page}}}
+\pdfstringdefDisableCommands{\let\Mark\@gobble\let\PageMark\@gobble}
+
+% The position of a mark, measured from the left and from the top edge of
+% the page. Can be used in the arguments of \CheckPos.
+\newcommand{\PosX}[1]{\dimexpr\zposx{#1}sp\relax}
+\newcommand{\PosY}[1]{\dimexpr\paperheight-\zposy{#1}sp\relax}
+
+% The family, the series and the size of the current font, for \CheckEqual.
+\newcommand{\FontFamily}{\f@family}
+\newcommand{\FontSeries}{\f@series}
+\newcommand{\FontSize}{\f@size}
+
+% A length in millimetres, for the messages.
+\newcommand{\Check@mm}[1]{\strip@pt\dimexpr(#1)*2540/7227\relax}
+
+% \CheckPos[tolerance]{label}{x}{y} checks that the mark is x from the left
+% edge and y from the top edge of the page.
+\newcommand{\CheckPos}[4][0.02mm]{%
+	\@tempswatrue
+	\@tempdima=\dimexpr\PosX{#2}-(#3)\relax
+	\ifdim\@tempdima<\z@ \@tempdima=-\@tempdima \fi
+	\ifdim\@tempdima>\dimexpr#1\relax \@tempswafalse \fi
+	\@tempdima=\dimexpr\PosY{#2}-(#4)\relax
+	\ifdim\@tempdima<\z@ \@tempdima=-\@tempdima \fi
+	\ifdim\@tempdima>\dimexpr#1\relax \@tempswafalse \fi
+	\if@tempswa
+		\typeout{TEST OK: position of #2}%
+	\else
+		\typeout{TEST FAILED: position of #2:
+			expected (\Check@mm{#3}, \Check@mm{#4}) mm,
+			got (\Check@mm{\PosX{#2}}, \Check@mm{\PosY{#2}}) mm}%
+	\fi
+}
+
+% \CheckAbsent{label} checks that the mark was not typeset at all.
+\newcommand{\CheckAbsent}[1]{%
+	\zref@ifrefundefined{#1}%
+		{\typeout{TEST OK: no #1}}%
+		{\typeout{TEST FAILED: #1 should be absent, it is at
+			(\Check@mm{\PosX{#1}}, \Check@mm{\PosY{#1}}) mm}}%
+}
+
+% \CheckEqual{what}{actual}{expected} compares two texts after expansion.
+\newcommand{\CheckEqual}[3]{%
+	\protected@edef\Check@a{#2}%
+	\protected@edef\Check@b{#3}%
+	\ifx\Check@a\Check@b
+		\typeout{TEST OK: #1}%
+	\else
+		\typeout{TEST FAILED: #1: expected "\Check@b", got "\Check@a"}%
+	\fi
+}
+
+% \CheckColour{name}{R,G,B} checks the definition of a colour; the name .
+% stands for the colour of the text at the place of the check.
+\newcommand{\CheckColour}[2]{%
+	\extractcolorspecs{#1}{\Check@a}{\Check@b}%
+	\convertcolorspec{\Check@a}{\Check@b}{RGB}{\Check@c}%
+	\CheckEqual{colour #1}{\Check@c}{#2}%
+}
+
+\makeatother
