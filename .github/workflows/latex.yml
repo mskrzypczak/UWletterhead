@@ -64,12 +64,15 @@ jobs:
           zip -r templates.zip templates
           tar czf templates.tar.gz templates
 
-      # Picture of the example shown on the page
-      - name: Convert the example to SVG
+      # Pictures of the examples shown on the page
+      - name: Convert the examples to SVG and PNG
         run: |
           sudo apt-get update
-          sudo apt-get install -y pdf2svg
+          sudo apt-get install -y pdf2svg poppler-utils
           pdf2svg dist/test.pdf dist/test.svg
+          for f in example1 example2 example3; do
+            pdftoppm -png -scale-to-x 600 -scale-to-y -1 -f 1 -l 1 -singlefile dist/$f.pdf dist/$f
+          done
 
       # Make PDFs downloadable from the run page
       - name: Upload artifact (PDFs)

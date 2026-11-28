@@ -5,31 +5,14 @@
   <title>UWletterhead — LaTeX class for official documents of the Faculty of Mathematics, Informatics and Mechanics of the University of Warsaw</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="UWletterhead: a LaTeX class that enables to create official PDF documents for the Faculty of Mathematics, Informatics and Mechanics of the University of Warsaw. Examples, manual and download.">
+  <link rel="stylesheet" href="https://mskrzypczak.github.io/style.css">
   <style>
-    :root { --fg: #111; --bg: #fff; --muted: #666; }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg); }
-    body { font: 16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif;
-           max-width: 800px; margin: 2.5rem auto; padding: 0 1rem; }
-    header h1 { font-size: 1.8rem; margin: 0 0 .25rem; }
-    header p  { margin: 0 0 1.25rem; color: var(--muted); }
-    header img, header h1 { display: inline-block; vertical-align: middle; }
-    .card { border: 1px solid #ddd; padding: 1rem 1.25rem; border-radius: .5rem; margin: 1rem 0; }
-    .card h2 { font-size: 1.25rem; margin: 0 0 .5rem; }
-    summary { cursor: pointer; }
-    summary h2 { display: inline; }
-    ul { padding-left: 1.25rem; }
-    .list { list-style: none; margin: .5rem 0 0; padding: 0; }
-    li { margin: .5rem 0; }
-    a { color: inherit; text-decoration: underline; }
-    footer { margin-top: 2rem; color: var(--muted); font-size: .9375rem; }
-    code { background: #f5f5f5; padding: .1rem .3rem; border-radius: .25rem; }
-    pre { background: #f5f5f5; padding: .75rem 1rem; border-radius: .25rem; overflow-x: auto; font-size: .875rem; tab-size: 4; }
+    :root { --accent: #00447c; }
   </style>
 </head>
 <body>
   <header>
-    <img src="logo.png" alt="LOGO" width="100" height="100">
+    <img class="logo" src="logo.png" alt="LOGO" width="56" height="56">
     <h1>UWletterhead</h1>
     <p>UWletterhead is a <a href="https://en.wikipedia.org/wiki/LaTeX">LaTeX</a> class package that enables to
        create official PDF documents for the
@@ -38,9 +21,21 @@
        <a href="https://promocja.uw.edu.pl/identyfikacja-wizualna/ksiega-identyfikacji-wizualnej/">Identification Codebook</a>
        of the University of Warsaw and on the official
        <a href="https://www.mimuw.edu.pl/pl/wydzial/logo-wydzialu/">logo</a> of the Faculty.</p>
+    <nav>
+      <a href="UWletterhead.zip">Download</a>
+      <a href="manual.pdf">Manual</a>
+      <a href="https://github.com/mskrzypczak/UWletterhead">GitHub</a>
+    </nav>
+    <div class="pages">
+      <a href="example1.pdf"><img src="example1.png" alt="example1.pdf" width="600" height="849"></a>
+      <a href="example2.pdf"><img src="example2.png" alt="example2.pdf" width="600" height="849"></a>
+      <a href="example3.pdf"><img src="example3.png" alt="example3.pdf" width="600" height="849"></a>
+    </div>
   </header>
+  <p class="caption">The examples <a href="example1.pdf">example1.pdf</a>, <a href="example2.pdf">example2.pdf</a>
+     and <a href="example3.pdf">example3.pdf</a></p>
 
-  <section class="card">
+  <section>
     <h2>Example</h2>
 <pre>
 PLACEHOLDER_test.tex
@@ -60,7 +55,7 @@ PLACEHOLDER_test.tex
     </ul>
   </section>
 
-  <section class="card">
+  <section>
     <h2>Quick Start Guide</h2>
     <ul>
       <li>download the <a href="UWletterhead.zip">package</a> and unpack it</li>
@@ -86,7 +81,7 @@ PLACEHOLDER_test.tex
     <p>For more information, see the <a href="manual.pdf">manual</a>.</p>
   </section>
 
-  <section class="card">
+  <section>
     <h2>Download</h2>
     <ul class="list">
       <li><a href="UWletterhead.zip"><code>UWletterhead.zip</code></a>,
@@ -103,7 +98,7 @@ PLACEHOLDER_test.tex
     </ul>
   </section>
 
-  <details class="card" id="layout">
+  <details id="layout">
     <summary title="Discrepancies inside the specification."><h2>Layout issues</h2></summary>
 
     <h3>Function &amp; name font</h3>
@@ -197,21 +192,21 @@ PLACEHOLDER_test.tex
        called <i>Measuring tool</i> under <i>Edit &gg; Analysis</i> menu.</p>
   </details>
 
-  <details class="card" id="UWclass">
+  <details id="UWclass">
     <summary><h2>UWletterhead.cls</h2></summary>
 <pre>
 PLACEHOLDER_UWletterhead.cls
 </pre>
   </details>
 
-  <details class="card" id="example3">
+  <details id="example3">
     <summary><h2>example3.tex</h2></summary>
 <pre>
 PLACEHOLDER_example3.tex
 </pre>
   </details>
 
-  <details class="card" id="changelog">
+  <details id="changelog">
     <summary><h2>CHANGELOG.txt</h2></summary>
 <pre>
 PLACEHOLDER_CHANGELOG.txt

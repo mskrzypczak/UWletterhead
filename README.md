@@ -54,7 +54,7 @@ bash tests/run.sh
 │   └── UWletterhead.cls, ...    # links to the class, the logos and the font files
 ├── templates/                   # official letterhead templates in PDF (for \UWoverlap)
 ├── tests/                       # the tests: run.sh and the test documents
-├── site/index.html, logo.png    # the website
+├── site/index.html, logo.png    # the website, styled by https://mskrzypczak.github.io/style.css
 └── .github/workflows/latex.yml  # GitHub Actions: test, build & publish
 ```
 
@@ -69,7 +69,8 @@ On every **push** and **pull request** (and when started by hand):
 - Bundles the class with its logos and fonts, the examples, the manual, the licenses and
   `CHANGELOG.txt` into the folder `UWletterhead/` and into `UWletterhead.zip` and
   `UWletterhead.tar.gz`, and the templates into `templates.zip` and `templates.tar.gz`
-- Converts `test.pdf` into the picture `test.svg` shown on the website
+- Converts `test.pdf` into the picture `test.svg` and the first pages of `example1.pdf`,
+  `example2.pdf` and `example3.pdf` into the pictures `example*.png` shown on the website
 - Uploads the PDFs as build artifacts
 - Publishes the website, the PDFs, the bundle and the templates to **GitHub Pages** (from `main` only)
 
