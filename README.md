@@ -55,6 +55,7 @@ bash tests/run.sh
 ├── templates/                   # official letterhead templates in PDF (for \UWoverlap)
 ├── tests/                       # the tests: run.sh and the test documents
 ├── site/index.html, logo.png    # the website, styled by https://mskrzypczak.github.io/style.css
+├── site/favicon.png             # the icon of the website
 └── .github/workflows/latex.yml  # GitHub Actions: test, build & publish
 ```
 
